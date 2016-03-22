@@ -1,6 +1,6 @@
 {
   "name": "skira-gui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "main.js",
   "bin": {
     "skira-gui": "./bin/gui.js"

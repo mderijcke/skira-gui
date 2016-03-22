@@ -5,4 +5,4 @@ const spawn = require("child_process").spawn
 var args = process.argv.slice(2)
 args.unshift(__dirname + "/../")
 
-childProcess.spawn(electronPath, args, { stdio: "inherit" })
+spawn(electronPath, args, { stdio: "inherit" })
