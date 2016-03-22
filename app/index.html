@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Skira</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+<div id="content">
+	<div class="container-fluid">
+		Loading..........
+	</div>
+</div>
+
+<div class="container-fluid">
+	<pre id="console"></pre>
+</div>
+
+<script>
+const moment = require("moment")
+const ipcRenderer = require("electron").ipcRenderer
+const jade = require("jade")
+const shell = require("electron").shell
+const diff = require("diffhtml")
+const escape = require("escape-html")
+
+ipcRenderer.on("status", (e, tasks) => {
+	var jadeCode = `
+.container-fluid
+	.row
+		each task, taskName in tasks
+			.col-xs-12.col-sm-6.col-md-3.col-lg-2.text-center
+				br
+				div
+					strong= taskName
+				div(style="font-size: 30px")
+					if task.error && task.error.length
+						span.glyphicon.glyphicon-remove(style="color: #D45E4E")
+					else if task.busy
+						span.glyphicon.glyphicon-refresh(style="color: #4EB7D4")
+					else
+						span.glyphicon.glyphicon-ok(style="color: #59B04F")
+				div
+					| Last trigger:&nbsp;
+					= moment(task.lastrun).fromNow()
+
+	br
+
+	each task, taskName in tasks
+		if task.error.length
+			each error in task.error
+				.alert.alert-danger
+					strong Error in #{taskName}
+					pre= error.stack
+
+	a.btn.btn-block.btn-primary(href=tasks.proxy.href, target="_blank") Open site
+	br
+`
+
+	var html = jade.render(jadeCode, { tasks: tasks })
+
+	diff.innerHTML(document.getElementById("content"), html)
+})
+
+ipcRenderer.on("stdout", (e, data) => {
+	data = typeof data != "string" ? data.toString() : data
+	document.getElementById("console").innerHTML += escape(data)
+})
+
+ipcRenderer.on("stderr", (e, data) => {
+	data = typeof data != "string" ? data.toString() : data
+	var html = "<span style=\"color: red\">" + escape(data) + "</span>"
+	document.getElementById("console").innerHTML += html
+})
+
+document.addEventListener("click", (e) => {
+	var target = e.target
+
+	if (target.href && target.target == "_blank") {
+		e.preventDefault()
+		shell.openExternal(target.href)
+	}
+})
+
+ipcRenderer.send("ready")
+</script>
+
+</body>
+</html>

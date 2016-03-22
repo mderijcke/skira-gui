@@ -1,0 +1,18 @@
+{
+  "name": "skira-gui",
+  "version": "0.1.0",
+  "main": "main.js",
+  "bin": {
+    "skira-gui": "./bin/gui.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "diffhtml": "^0.6.4",
+    "electron-prebuilt": "^0.37.2",
+    "escape-html": "^1.0.3",
+    "jade": "^1.11.0",
+    "moment": "^2.12.0",
+    "serialize-error": "^1.1.0",
+    "skira": "^0.5.10"
+  }
+}
