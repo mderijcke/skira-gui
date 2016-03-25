@@ -25,6 +25,8 @@ const shell = require("electron").shell
 const diff = require("diffhtml")
 const escape = require("escape-html")
 
+document.title = "Skira: " + process.cwd().split(/\/|\\/g).pop() + " - " + process.cwd()
+
 ipcRenderer.on("status", (e, tasks) => {
 	var jadeCode = `
 .container-fluid
