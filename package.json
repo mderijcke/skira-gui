@@ -1,6 +1,6 @@
 {
   "name": "skira-gui",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "main": "main.js",
   "bin": {
     "skira-gui": "./bin/gui.js"
@@ -13,6 +13,6 @@
     "jade": "^1.11.0",
     "moment": "^2.12.0",
     "serialize-error": "^1.1.0",
-    "skira": "^0.5.10"
+    "skira": "^0.7.0-3"
   }
 }
